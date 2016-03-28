@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link rel= "stylesheet" href="css/CSS_.css" >
+
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Recipe Chef</a>
+        </div>
+      </div>
+    </nav>
+  </br></br></br></br>
+
+    <div class = "container center-block">
+    </div>
+
+    <div  class='container' >
+      
+    </div>
+    <div id ="inputDiv" class="col-md-3">
+      </br></br></br>
+      <h2>Enter new Recipe</h2></br>
+      <table id="inputTable" class ="table">
+        <tr><td>Name:</td><td><input type='text' id='nameInput' ></td></tr>
+        <tr><td>Classification:</td><td><input type='text' id='classificationInput' ></td></tr>
+        <tr><td>Recipe:</td><td><textarea class="scrollabletextbox" rows="4" cols="22" wrap="hard" id='textInput' ></textarea></td></tr>
+      </table>
+      <div id="button">
+        <button type="button" class="btn btn-danger">Add Recipe</button>
+      </div>
+    </div>
+    <div id='messagesDiv' class="col-md-8">
+      <table id ='recipeTable' class="table table-striped">
+        <col width="30%">
+        <col width="30%">
+        <col width="40%">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Classification</th>
+          <th>Recipe</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
+    </div>
+
+    <script>
+      var myDataRef = new Firebase('https://flickering-torch-5120.firebaseio.com/');
+      document.getElementById("button").onclick = function() {myFunction()};
+      //$('#textInput').keypress(function (e) {
+        //if (e.keyCode == 13) {
+        function myFunction(){ 
+          var name = $('#nameInput').val();
+          var text = $('#textInput').val();
+          var classification = $('#classificationInput').val();
+          if(name=="" || text =="" || classification=="") alert("All fields should be filled!");
+          else{
+              myDataRef.push({name: name, classification: classification, text: text});
+              $('#nameInput').val('');
+              $('#classificationInput').val('');
+              $('#textInput').val('');
+          }
+        }
+
+      myDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        displayChatMessage(message.name, message.classification,message.text);
+      });
+
+      function displayChatMessage(name, classification, text) {
+        text = text.replace(/\n/g, "<br />");
+        $("#recipeTable tbody").append("<tr>"+"<td>"+name+"</td>"+"<td>"+classification+"</td>"+"<td>"+text+"</td></tr>");
+        $('#recipeTable')[0].scrollTop = $('#recipeTable')[0].scrollHeight;
+      };
+    </script>
+  </body>
+</html>
