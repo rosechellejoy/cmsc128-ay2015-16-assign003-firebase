@@ -1,0 +1,28 @@
+#inputTable .table th, .table td { 
+        border-top: none !important;
+        border-left: none !important;
+}
+body{
+    background-image: url("../public/images.jpg"); 
+}
+#button{
+    padding-left: 120px;
+}
+textarea { 
+    resize:vertical; 
+}
+.table-striped>tbody>tr:nth-child(odd)>td{
+   background-color: #ffe6b3;
+ }
+ .table-striped>tbody>tr:nth-child(even)>td{
+   background-color: #ffdd99;
+ }
+thead{
+    background-color: :#ffdd99;
+}
+#recipeTable thead{
+    background-color: #ffcc80;
+    font-family: "Verdana";
+    font-weight: normal;
+}
+
